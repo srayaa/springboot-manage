@@ -3,6 +3,7 @@ package com.jesper.filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -16,6 +17,7 @@ import java.util.Map;
  */
 @Configuration
 @WebFilter(urlPatterns = "/*", filterName = "SQLInjection")
+@Order(value=1)
 public class SQLInjectionFilterServlet implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(SQLInjectionFilterServlet.class);

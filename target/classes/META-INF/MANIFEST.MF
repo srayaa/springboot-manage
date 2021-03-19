@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: wjh
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: lenovo
+Implementation-Vendor-Id: com.jesper
+Build-Jdk: 1.8.0_221
+Implementation-URL: http://projects.spring.io/spring-boot/jesper/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

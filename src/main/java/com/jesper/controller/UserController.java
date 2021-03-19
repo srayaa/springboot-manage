@@ -14,8 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
 
@@ -48,6 +47,7 @@ public class UserController {
         return "login";
     }
 
+    
     /**
      * 登录
      *
@@ -162,4 +162,9 @@ public class UserController {
         return "redirect:userManage";
     }
 
+    @RequestMapping("/user/logout")
+    public String logout(Model model) {
+    	httpSession.removeAttribute("user");
+    	return "redirect:login";
+    }
 }
