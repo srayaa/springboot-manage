@@ -30,7 +30,7 @@ import com.jesper.model.User;
 public class ConfigInterceptor implements Filter{
 
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList(".*jpg","/favicon.ico","/img/.*","/font-awesome/.*","/js/.*","/css/.*","/main/excludefilter", "/user/login", "/user/logout", "/user/register")));
+            Arrays.asList("/user/skin-config.html",".*jpg","/favicon.ico","/img/.*","/font-awesome/.*","/js/.*","/css/.*","/main/excludefilter", "/user/login", "/user/logout", "/user/register")));
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -56,7 +56,7 @@ public class ConfigInterceptor implements Filter{
 		}
         
         if (allowedPath) {
-            System.out.println("这里是不需要处理的url进入的方法");
+            //System.out.println("这里是不需要处理的url进入的方法");
             chain.doFilter(req, res);
         }
         else {

@@ -10,10 +10,15 @@
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
 
+		
         <!--<plugin type="tk.mybatis.mapper.generator.MapperPlugin">-->
             <!--<property name="mappers" value="com.yaochufa.kuya.util.MyMapper"/>-->
         <!--</plugin>-->
-
+		<!-- <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+		<commentGenerator>
+                <property name="suppressAllComments" value="true"/>
+        </commentGenerator> -->
+        
         <jdbcConnection driverClass="${driver-class-name}"
                         connectionURL="${druid.url}"
                         userId="${druid.username}"
@@ -26,10 +31,11 @@
 
         <javaClientGenerator targetPackage="com.jesper.mapper" targetProject="src/main/java"
                              type="XMLMAPPER"/>
+		
 
         <!--<table tableName="%">-->
         <!--mysql 配置-->
-        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!-- <generatedKey column="id" sqlStatement="Mysql" identity="true"/> -->
         <!--oracle 配置-->
         <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
         <!--</table>-->
@@ -37,6 +43,11 @@
         <!--        <table tableName="lk361_sales_order" domainObjectName="SalesOrder"/>
                 <table tableName="lk361_sales_order_detail" domainObjectName="SalesOrderDetail"/>
                 <table tableName="lk361_sales_order_latest" domainObjectName="SalesOrderLatest"/>-->
-        <table tableName="kuaidi100_delivery" domainObjectName="Delivery"/>
+        <table tableName="tb_quan" domainObjectName="Quan">
+        	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="tb_quancat" domainObjectName="Quancat">
+        	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>
