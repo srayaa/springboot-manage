@@ -17,6 +17,7 @@ public class Quan extends BaseObject{
     private Long cid;
 
     private Integer syr;
+    private Integer hxsj;
 
     private Byte status;
     
