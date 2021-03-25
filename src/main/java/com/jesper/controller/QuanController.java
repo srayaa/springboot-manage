@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -91,7 +92,11 @@ public class QuanController {
         Integer maxPrice = quan.getMaxPrice();*/
         model.addAttribute("quancatList", quancatList);
         model.addAttribute("quanList", quanList);
-        String pageHTML = PageUtil.getPageContent("quanManage_{pageCurrent}_{pageSize}_{pageCount}?syr=" + quan.getSyr() + "&cid=" + quan.getCid() + "&minSendtime" + quan.getMinSendtime() + "&maxSendtime" + quan.getMaxSendtime(), pageCurrent, pageSize, pageCount);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String minsdtime = quan.getMinSendtime()==null?"":sdf.format(quan.getMinSendtime());
+        String maxsdtime = quan.getMaxSendtime()==null?"":sdf.format(quan.getMaxSendtime());
+        
+        String pageHTML = PageUtil.getPageContent("quanManage_{pageCurrent}_{pageSize}_{pageCount}?syr=" + quan.getSyr() + "&cid=" + quan.getCid() + "&minSendtime" + minsdtime + "&maxSendtime" + maxsdtime, pageCurrent, pageSize, pageCount);
         model.addAttribute("pageHTML", pageHTML);
         model.addAttribute("quan", quan);
         return "quan/quanManage";

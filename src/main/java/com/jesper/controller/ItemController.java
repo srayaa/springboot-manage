@@ -124,6 +124,7 @@ public class ItemController {
 
     @GetMapping("/user/itemEdit")
     public String itemEditGet(Model model, Item item) {
+    	
         ItemCategory itemCategory = new ItemCategory();
         itemCategory.setStart(0);
         itemCategory.setEnd(Integer.MAX_VALUE);

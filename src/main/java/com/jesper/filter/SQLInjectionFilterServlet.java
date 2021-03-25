@@ -29,7 +29,8 @@ public class SQLInjectionFilterServlet implements Filter {
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        regularExpression = "(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|" + "(\\b(select|update|and|or|delete|insert|trancate|char|into|substr|ascii|declare|exec|count|master|into|drop|execute)\\b)";
+        //regularExpression = "(?:')|(?:--)|(/\\*(?:.|[\\n\\r])*?\\*/)|" + "(\\b(select|update|and|or|delete|insert|trancate|char|into|substr|ascii|declare|exec|count|master|into|drop|execute)\\b)";
+        regularExpression ="\\b(and|exec|insert|select|drop|grant|alter|delete|update|count|chr|mid|master|truncate|char|declare|or)\\b|(\\*|;|\\+|'|%)";
         log.info("######### regularExpression={}", regularExpression);
     }
 

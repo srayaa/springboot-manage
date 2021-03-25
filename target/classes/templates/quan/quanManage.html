@@ -12,6 +12,7 @@
 
     <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet"/>
     <link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
 
@@ -64,10 +65,10 @@
                                     </div>
 
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="minSendtime" name="minSendtime" class="form-control" type="text" th:value="${quan.minSendtime}" placeholder="发放日期始" />
+                                        <input id="minSendtime" name="minSendtime" data-date-format='yyyy-MM-dd HH:mm:ss' class="form-control" type="text" th:value="${quan.minSendtime==null}?'':${#dates.format(quan.minSendtime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="发放日期始" />
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="maxSendtime" name="maxSendtime"  class="form-control" type="text" th:value="${quan.maxSendtime}" placeholder="发放日期止"/>
+                                        <input id="maxSendtime" name="maxSendtime" data-date-format='yyyy-mm-dd hh:ii:ss' class="form-control" type="text" th:value="${quan.maxSendtime==null}?'':${#dates.format(quan.maxSendtime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="发放日期止"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
                                         <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>搜索</strong></button>
@@ -152,7 +153,40 @@
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
 <script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
 
+
+
+<script th:inline="javascript">
+    $("#minSendtime")
+    .attr('data-date-defaultdate', $('#minSendtime').val())
+    .datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        defaultDate: $('#minSendtime').val(),
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: false,
+        pickerPosition: "bottom-left",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 0//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+
+    $("#maxSendtime").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        defaultDate: $('#maxSendtime').val(),
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: false,
+        pickerPosition: "bottom-left",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 0//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+</script>
 <!-- Peity -->
 <script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
 
