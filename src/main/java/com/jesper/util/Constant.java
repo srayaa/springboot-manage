@@ -1,5 +1,7 @@
 package com.jesper.util;
 
+import java.util.HashMap;
+
 public interface Constant {
 	String Code01 = "01";
 	String Msg01 = "请求成功"; 
@@ -9,4 +11,7 @@ public interface Constant {
 	String OrderByBrowsesDesc = "BROWSES DESC";
 	String OrderByCommentsDesc = "COMMENTS DESC";
 	String OrderByScoreDesc = "SCORE DESC";
+	
+	
+	
 }

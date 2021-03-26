@@ -13,6 +13,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.jesper.model.Member;
 import com.jesper.model.User;
 
 import lombok.Data;
@@ -54,6 +55,27 @@ public class JwtUtils {
         return "";
     }
 
+    public String sign(Member userInfo) {
+        Date date = new Date(System.currentTimeMillis() +  EXPIRE_TIME * 1000);
+        Algorithm algorithm;
+		try {
+			algorithm = Algorithm.HMAC256( SECRET);
+			// 附带username信息
+	        return JWT.create()
+	                .withSubject(userInfo.getId()+"")
+	                .withIssuer(userInfo.getPname())
+	                .withExpiresAt(date)
+	                .sign(algorithm);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return "";
+    }
+    
     /**
      * 校验token是否正确
      *

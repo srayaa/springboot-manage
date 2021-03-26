@@ -43,10 +43,19 @@
         <!--        <table tableName="lk361_sales_order" domainObjectName="SalesOrder"/>
                 <table tableName="lk361_sales_order_detail" domainObjectName="SalesOrderDetail"/>
                 <table tableName="lk361_sales_order_latest" domainObjectName="SalesOrderLatest"/>-->
-        <table tableName="tb_quan" domainObjectName="Quan">
+        <!-- <table tableName="tb_quan" domainObjectName="Quan">
         	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
         <table tableName="tb_quancat" domainObjectName="Quancat">
+        	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table> -->
+        <table tableName="tb_flow" domainObjectName="Flow">
+        	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="tb_shop" domainObjectName="Shop">
+        	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="tb_member" domainObjectName="Member">
         	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
     </context>

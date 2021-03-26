@@ -26,6 +26,8 @@ public class Quan extends BaseObject{
 
     private Date usetime;
 
+    private Date starttime;
+    
     private Date expiretime;
 
     private Date created;
@@ -44,4 +46,14 @@ public class Quan extends BaseObject{
     
     private String categoryName;
     private String syrstr;
+    
+    
+    	public static byte unverify =0;
+    	public static byte normal =1;
+    	public static byte unbilled =2;
+    	public static byte billed =3;
+    	public static byte expired =4;
+    	public static byte baned =5;
+    	
+    
 }

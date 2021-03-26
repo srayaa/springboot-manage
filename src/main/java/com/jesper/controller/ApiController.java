@@ -5,22 +5,27 @@ import java.util.Date;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jesper.mapper.MemberMapper;
 import com.jesper.mapper.QuanMapper;
 import com.jesper.mapper.UserMapper;
+import com.jesper.model.Member;
 import com.jesper.model.Quan;
 import com.jesper.model.User;
 import com.jesper.util.JwtUtils;
-
+@CrossOrigin
 @RestController
 public class ApiController {
 	@Autowired
     private UserMapper userMapper;
+	@Autowired
+	private MemberMapper memberMapper;
 	
 	@Autowired
 	private QuanMapper quanMapper;
@@ -54,8 +59,10 @@ public class ApiController {
 			if(quan.getStatus()==1) {
 				quan.setHxsj(Integer.parseInt(shopid));
 				quan.setUsetime(new Date(Long.parseLong(hxtime)));
+				quan.setStatus(Quan.unbilled);//3-已核销未结算
 				quanMapper.updateByPrimaryKey(quan);
 				//这里要加上流水表记录，flow ftype:1核销
+				
 				
 				jo.put("code", 0);
 			}else {
@@ -79,19 +86,48 @@ public class ApiController {
 	
 	@RequestMapping("/api/login")
 	public String login(@RequestParam String username,@RequestParam String passwd){
-			User user = new User();
-			user.setUserName(username);
-			user.setPassword(passwd);
-			User user1 = userMapper.selectByNameAndPwd(user);
-			JSONObject jo = new JSONObject();
-			JwtUtils  ju = new JwtUtils();
-			if (user1 != null) {
-	            jo.put("code", 0);
-	            jo.put("t", ju.sign(user1));
-	        } else {
-	        	jo.put("code", -1);
-	        }
+		Member member = new Member();
+		member.setPname(username);
+		member.setPwd(passwd);
+		Member member1 = memberMapper.selectByNameAndPwd(member);
+			
+		JSONObject jo = new JSONObject();
+		JwtUtils  ju = new JwtUtils();
+		if (member1 != null) {
+			if(member1.getState()==0) {
+				jo.put("code", -2);
+				jo.put("i", member1.getId());
+			}else {
+				jo.put("code", 0);
+				jo.put("t", ju.sign(member1));
+			}
+	    } else {
+	        jo.put("code", -1);
+	    }
 		
+		return jo.toJSONString();
+	}
+	
+	@RequestMapping("/api/regist")
+	public String regist(@RequestParam String i,@RequestParam String code,@RequestParam String pname,@RequestParam String passwd) {
+		JSONObject jo = new JSONObject();
+		Member member = memberMapper.selectByPrimaryKey(Long.parseLong(i));
+		if(member.getState()!=0) {
+			jo.put("code", -1);
+			//无需激活
+		}else {
+			if(member.getPcode().equals(code)&&member.getRealname().equals(pname)) {
+				//警号，姓名符合，激活
+				member.setPwd(passwd);
+				member.setState((byte) 1);
+				member.setUpdated(new Date());
+				memberMapper.updateByPrimaryKey(member);
+				jo.put("code", 1);
+			}else {
+				//不符合
+				jo.put("code", -2);
+			}
+		}
 		return jo.toJSONString();
 	}
 }
