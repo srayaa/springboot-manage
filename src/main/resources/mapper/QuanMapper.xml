@@ -119,5 +119,14 @@
         ORDER BY updated desc
         limit #{start, jdbcType=INTEGER},#{end, jdbcType=INTEGER}
     </select>
-  
+  	<select id="selectByMid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT i.* , t.qname as categoryName,u.userName as syrstr FROM tb_quan i 
+        LEFT JOIN tb_quancat t ON i.cid = t.id 
+        LEFT JOIN tb_user u on i.syr = u.id
+        WHERE 1 = 1
+        <if test="syr != null">
+            AND syr = #{mid, jdbcType=INTEGER}
+        </if>
+        ORDER BY updated desc
+    </select>
 </mapper>

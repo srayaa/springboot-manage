@@ -50,4 +50,6 @@ public interface QuanMapper {
 	List<Quan> list(Quan quan);
 
 	int count(Quan quan);
+
+	List<Quan> selectByMid(Integer mid);
 }
