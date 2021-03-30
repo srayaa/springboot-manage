@@ -99,6 +99,7 @@ public class ApiController {
 				quan.setHxsj(Integer.parseInt(shopid));
 				quan.setUsetime(new Date(Long.parseLong(hxtime)));
 				quan.setStatus(Quan.unbilled);//3-已核销未结算
+				quan.setTn(tradenum);
 				quanMapper.updateByPrimaryKey(quan);
 				//这里要加上流水表记录，flow ftype:1核销
 				Flow flow = new Flow();
@@ -133,6 +134,25 @@ public class ApiController {
 		JSONObject jo = new JSONObject();
 		JSONArray ja = new JSONArray();
 		for (Quan quan : qus) {
+			if(quan.getExpiretime().before(new Date())) {
+				String tradenum = new Date().getTime()+"";
+				String endfix = "U"+"0"+"M"+mid+"N"+quan.getId();
+				while(endfix.length()<17) {
+					endfix = endfix+"0";
+				}
+				tradenum = "D"+endfix +tradenum;
+				quan.setStatus((byte) 3);
+				quan.setTn(tradenum);
+				quanMapper.updateByPrimaryKey(quan);
+				Flow flow = new Flow();
+				flow.setCreated(new Date());
+				flow.setFtype((byte) 3);
+				flow.setMemberid((long) mid);
+				flow.setQuanid(quan.getId());
+				
+				flow.setTradecode(tradenum);
+				flowMapper.insert(flow);
+			}
 			JSONObject j = new JSONObject();
 			j.put("id", quan.getId());
 			j.put("title", quan.getCategoryName());
@@ -140,23 +160,11 @@ public class ApiController {
 			j.put("termEnd", sdf.format(quan.getExpiretime()));
 			j.put("ticket", "1次");
 			j.put("criteria", "无限制条件");
-			if(quan.getExpiretime().before(new Date())) {
-				quan.setStatus((byte) 3);
-				quanMapper.updateByPrimaryKey(quan);
-				Flow flow = new Flow();
-				flow.setCreated(new Date());
-				flow.setFtype((byte) 3);
-				flow.setMemberid((long) mid);
-				flow.setQuanid(quan.getId());
-				String tradenum = new Date().getTime()+"";
-				String endfix = "U"+"0"+"M"+mid+"N"+quan.getId();
-				while(endfix.length()<17) {
-					endfix = endfix+"0";
-				}
-				tradenum = "D"+endfix +tradenum;
-				flow.setTradecode(tradenum);
-				flowMapper.insert(flow);
-			}
+			j.put("state",quan.getStatus());
+			j.put("validshop", quan.getValidshops());
+			j.put("sysj", sdf.format(quan.getUsetime()));
+			j.put("tn", quan.getTn());
+			j.put("sp", quan.getSname());
 			ja.add(j);
 		}
 		jo.put("qs",ja);

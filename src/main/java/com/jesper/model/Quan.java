@@ -18,6 +18,7 @@ public class Quan extends BaseObject{
 
     private Integer syr;
     private Integer hxsj;
+    private String tn;
 
     private Byte status;
     
@@ -46,6 +47,8 @@ public class Quan extends BaseObject{
     
     private String categoryName;
     private String syrstr;
+    private String sname;
+    private String validshops;
     
     
     	public static byte unverify =0;

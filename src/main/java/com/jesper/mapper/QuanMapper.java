@@ -51,5 +51,5 @@ public interface QuanMapper {
 
 	int count(Quan quan);
 
-	List<Quan> selectByMid(Integer mid);
+	List<Quan> selectByMid(Integer syr);
 }
