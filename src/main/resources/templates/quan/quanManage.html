@@ -80,7 +80,8 @@
                             </form>
                             <div class="row">
                                 <div class="col-sm-6 m-b-xs">
-                                    <a th:href="@{quanEdit}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;新增券&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    <a th:href="@{quanEdit}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;单张发券&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    <a th:href="@{quanEditBatch}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;批量发券&nbsp;&nbsp;&nbsp;&nbsp;</a>
                                 </div>
                                 <div class="col-sm-6 m-b-xs">
                                 </div>
@@ -105,9 +106,9 @@
                                     <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="39%">发放批次</th>
-                                        <th width="8%">券种类</th>
-                                        <th width="8%">所有人</th>
+                                        <th width="10%">发放批次</th>
+                                        <th width="25%">券种类</th>
+                                        <th width="20%">所有人</th>
                                         <th width="15%">券状态</th>
                                         <th width="15%">发放时间</th>
                                         <!--<th width="10%">推荐状态</th>-->
@@ -118,15 +119,15 @@
                                     <tr th:each="quan : ${quanList}">
                                         <td th:text="${quan.id}">Onions</td>
                                         <td th:text="${quan.batchnum}">Onions</td>
-                                        <td th:text="${quan.cid}">Onions</td>
-                                        <td th:text="${quan.syr}">Onions</td>
+                                        <td th:text="${quan.categoryName}">Onions</td>
+                                        <td th:text="${quan.syrstr}">Onions</td>
                                         <td th:text="${quan.status}">Onions</td>
                                         <td th:text="${quan.updatedStr}">Onions</td>
                                      
                                         <td>
                                             <a th:href="@{'quanEdit?id='+${quan.id}}" title="修改"><i class="fa fa-edit text-navy"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="#" th:onclick="'javascript:updateState('+${quan.id}+',2,0);'" title="删除"><i class="fa fa-trash-o text-navy"></i></a>
+                                            <a href="#" th:onclick="'javascript:deleteOne('+${quan.id}+');'" title="删除"><i class="fa fa-trash-o text-navy"></i></a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -212,6 +213,19 @@
         $("#pageHTML").html(pageHTML);
     });
 
+    function deleteOne(id){
+    	$.ajax({
+            type: "POST",
+            url: "quanEditDel?id="+id,
+            contentType: "application/json; charset=utf-8",
+            success: function(msg){
+                window.location.reload();
+            },
+            error: function(){
+                alert("系统异常！");
+            }
+        });
+    }
     /*<![CDATA[*/
     function updateState(id,state,commendState){
         var deleteTag;

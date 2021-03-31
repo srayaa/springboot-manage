@@ -48,5 +48,5 @@ public interface QuancatMapper {
      */
     int updateByPrimaryKey(Quancat record);
 
-	List<ItemCategory> list(Quancat quancat);
+	List<Quancat> list(Quancat quancat);
 }

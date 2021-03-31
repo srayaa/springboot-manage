@@ -44,7 +44,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tb_quan (batchnum, cid, syr, hxsj,tn
+    insert into tb_quan (batchnum, cid, syr, hxsj,tn,
       status, sendtime, usetime, starttime,
       expiretime, created, updated
       )
@@ -94,11 +94,11 @@
     from tb_quan
   </select>
  <select id="count" resultType="java.lang.Integer" parameterType="com.jesper.model.Quan">
-        SELECT count(*) from tb_quan i LEFT JOIN tb_quancat t ON i.cid = t.id WHERE i.status = 1
+        SELECT count(*) from tb_quan i  WHERE 1 = 1
         <if test="syr != null">
             AND syr = #{syr, jdbcType=INTEGER}
         </if>
-        <if test="cid != 0">
+        <if test="cid != null">
             AND cid = #{cid, jdbcType=INTEGER}
         </if>
 
@@ -108,14 +108,14 @@
         </if>
     </select>
   	<select id="list" resultMap="BaseResultMap" parameterType="com.jesper.model.Quan">
-        SELECT i.* , t.qname as categoryName,t.validshops,u.userName as syrstr FROM tb_quan i 
+        SELECT i.* , t.qname as categoryName,t.validshops,u.realname as syrstr FROM tb_quan i 
         LEFT JOIN tb_quancat t ON i.cid = t.id 
-        LEFT JOIN tb_user u on i.syr = u.id
-        WHERE i.status = 1
+        LEFT JOIN tb_member u on i.syr = u.id
+        WHERE 1 = 1 
         <if test="syr != null">
             AND syr = #{syr, jdbcType=INTEGER}
         </if>
-        <if test="cid != 0">
+        <if test="cid != null">
             AND cid = #{cid, jdbcType=INTEGER}
         </if>
         <if test="minSendtime != null and maxSendtime != null">
@@ -125,9 +125,9 @@
         limit #{start, jdbcType=INTEGER},#{end, jdbcType=INTEGER}
     </select>
   	<select id="selectByMid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT i.* , t.qname as categoryName,t.validshops,u.userName as syrstr,s.sname FROM tb_quan i 
+        SELECT i.* , t.qname as categoryName,t.validshops,u.realname as syrstr,s.sname FROM tb_quan i 
         LEFT JOIN tb_quancat t ON i.cid = t.id 
-        LEFT JOIN tb_user u on i.syr = u.id
+        LEFT JOIN tb_member u on i.syr = u.id
         LEFT JOIN tb_shop s on s.id = i.hxsj
         WHERE 1 = 1
         AND syr = #{syr, jdbcType=INTEGER}

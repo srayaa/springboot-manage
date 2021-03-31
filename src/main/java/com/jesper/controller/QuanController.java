@@ -2,17 +2,22 @@ package com.jesper.controller;
 
 import com.jesper.mapper.ItemCategoryMapper;
 import com.jesper.mapper.ItemMapper;
+import com.jesper.mapper.MemberMapper;
 import com.jesper.mapper.QuanMapper;
 import com.jesper.mapper.QuancatMapper;
 import com.jesper.mapper.ReItemMapper;
 import com.jesper.model.Item;
 import com.jesper.model.ItemCategory;
+import com.jesper.model.Member;
 import com.jesper.model.Quan;
 import com.jesper.model.Quancat;
 import com.jesper.model.ReItem;
 import com.jesper.model.ResObject;
 import com.jesper.util.*;
 import com.mongodb.gridfs.GridFSDBFile;
+import com.sun.tools.classfile.StackMapTable_attribute.same_frame;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +53,8 @@ public class QuanController {
 
     @Autowired
     private QuancatMapper quancatMapper;
+    @Autowired
+    private MemberMapper memberMapper;
 
     /*@Autowired
     private ReItemMapper reItemMapper;
@@ -87,7 +94,7 @@ public class QuanController {
         Quancat quancat = new Quancat();
         quancat.setStart(0);
         quancat.setEnd(Integer.MAX_VALUE);
-        List<ItemCategory> quancatList = quancatMapper.list(quancat);
+        List<Quancat> quancatList = quancatMapper.list(quancat);
         /*Integer minPrice = quan.getMinPrice();
         Integer maxPrice = quan.getMaxPrice();*/
         model.addAttribute("quancatList", quancatList);
@@ -102,6 +109,104 @@ public class QuanController {
         return "quan/quanManage";
     }
 
+    @GetMapping("/coup/quanEdit")
+    public String quanEditGet(Model model, Quan quan) {
+        Quancat quancat = new Quancat();
+        quancat.setStart(0);
+        quancat.setEnd(Integer.MAX_VALUE);
+        
+        List<Quancat> quancatList = quancatMapper.list(quancat);
+        model.addAttribute("quancatList", quancatList);
+        if (quan!=null&&quan.getId()!=null&&quan.getId() != 0) {
+            Quan quanold = quanMapper.selectByPrimaryKey(quan.getId());
+            /*String id = String.valueOf(quan.getId());
+            GridFSDBFile fileById = mongoUtil.getFileById(id);
+            if (fileById != null) {
+                StringBuilder sb = new StringBuilder(ROOT);
+                imageName = fileById.getFilename();
+                sb.append(imageName);
+                try {
+                    getFile = new File(sb.toString());
+                    fileById.writeTo(getFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                item1.setImage(imageName);
+            }*/
+            model.addAttribute("quan", quanold);
+        }
+        return "quan/quanEdit";
+    }
+
+    @PostMapping("/coup/quanEdit")
+    public String quanEditPost(Model model,  Quan quan) {
+        //根据时间和随机数生成id
+        Date date = new Date();
+        quan.setCreated(date);
+        quan.setUpdated(date);
+        quan.setSendtime(date);
+        
+
+        if (quan.getId()!=null&&quan.getId() != 0) {
+        	quanMapper.updateByPrimaryKey(quan);
+        } else {
+        	quanMapper.insert(quan);
+        }
+        return "redirect:quanManage_0_0_0";
+    }
+    
+    @GetMapping("/coup/quanEditBatch")
+    public String quanEditBatchGet(Model model) {
+    	 Quancat quancat = new Quancat();
+         quancat.setStart(0);
+         quancat.setEnd(Integer.MAX_VALUE);
+         
+         List<Quancat> quancatList = quancatMapper.list(quancat);
+         model.addAttribute("quancatList", quancatList);
+    	return "quan/quanEditBatch";
+    }
+    @PostMapping("/coup/quanEditBatch")
+    public String quanEditBatchPost(Model model,Quan quan,@RequestParam int ffsl) {
+    	Date date = new Date();
+        quan.setCreated(date);
+        quan.setUpdated(date);
+        quan.setSendtime(date);
+        List<Member> mems =  memberMapper.selectAll();
+    	switch (quan.getSyr()) {
+		case 0:
+			//所有人
+			for (Member member : mems) {
+				for(int i=0;i<ffsl;i++) {
+					Quan qone = new Quan();
+					BeanUtils.copyProperties(quan, qone);
+					qone.setSyr(member.getId().intValue());
+					quanMapper.insert(qone);
+				}
+			}
+			break;
+		case 1:
+			//民警：pos大于特定值，民警为10，大队为20，支队为30，非民警为0
+			
+			break;
+		case 2:
+			//非民警：pos等于特定值，民警为10，大队为20，支队为30，非民警为0
+			
+			break;
+		default:
+			break;
+		}
+    	return "redirect:quanManage_0_0_0";
+    }
+    
+    @ResponseBody
+    @PostMapping("/coup/quanEditDel")
+    public ResObject<Object>  quanEditDel(Model model,Quan quan) {
+    	quanMapper.deleteByPrimaryKey(quan.getId());
+    	ResObject<Object> object = new ResObject<Object>(Constant.Code01, Constant.Msg01, null, null);
+        return object;
+    	
+    }
+    
     /*@RequestMapping("/user/download1")
     public void postItemExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -132,81 +237,7 @@ public class QuanController {
 
     String imageName = null;
 
-    @GetMapping("/user/itemEdit")
-    public String itemEditGet(Model model, Item item) {
-        ItemCategory itemCategory = new ItemCategory();
-        itemCategory.setStart(0);
-        itemCategory.setEnd(Integer.MAX_VALUE);
-        List<ItemCategory> itemCategoryList = itemCategoryMapper.list(itemCategory);
-        model.addAttribute("itemCategoryList", itemCategoryList);
-        if (item.getId() != 0) {
-            Item item1 = itemMapper.findById(item);
-            String id = String.valueOf(item.getId());
-            GridFSDBFile fileById = mongoUtil.getFileById(id);
-            if (fileById != null) {
-                StringBuilder sb = new StringBuilder(ROOT);
-                imageName = fileById.getFilename();
-                sb.append(imageName);
-                try {
-                    getFile = new File(sb.toString());
-                    fileById.writeTo(getFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                item1.setImage(imageName);
-            }
-            model.addAttribute("item", item1);
-        }
-        return "item/itemEdit";
-    }
-
-    @PostMapping("/user/itemEdit")
-    public String itemEditPost(Model model, HttpServletRequest request, @RequestParam("file") MultipartFile file, Item item, HttpSession httpSession) {
-        //根据时间和随机数生成id
-        Date date = new Date();
-        item.setCreated(date);
-        item.setUpdated(date);
-        item.setBarcode("");
-        item.setImage("");
-        int rannum = 0;
-        if (file.isEmpty()) {
-            System.out.println("图片未上传");
-        } else {
-            try {
-                Path path = Paths.get(ROOT, file.getOriginalFilename());
-                File tempFile = new File(path.toString());
-                if (!tempFile.exists()) {
-                    Files.copy(file.getInputStream(), path);
-                }
-                LinkedHashMap<String, Object> metaMap = new LinkedHashMap<String, Object>();
-                String id = null;
-                if (item.getId() != 0) {
-                    id = String.valueOf(item.getId());
-                } else {
-                    Random random = new Random();
-                    rannum = (int) (random.nextDouble() * (99999 - 10000 + 1)) + 1000;// 获取5位随机数
-                    id = String.valueOf(rannum);
-                }
-                metaMap.put("contentType", "jpg");
-                metaMap.put("_id", id);
-                mongoUtil.uploadFile(tempFile, id, metaMap);
-                tempFile.delete();
-                getFile.delete();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            System.out.println("get File by Id Success");
-        }
-
-        if (item.getId() != 0) {
-            itemMapper.update(item);
-        } else {
-
-            item.setId(rannum);
-            itemMapper.insert(item);
-        }
-        return "redirect:itemManage_0_0_0";
-    }
+    
 
     
 
