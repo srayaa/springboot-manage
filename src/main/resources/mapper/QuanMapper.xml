@@ -53,6 +53,17 @@
       #{starttime,jdbcType=TIMESTAMP},#{expiretime,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}
       )
   </insert>
+  <insert id="insertBatch" parameterType="list">
+	insert into tb_quan (batchnum, cid, syr, hxsj,tn,
+      status, sendtime, usetime, starttime,
+      expiretime, created, updated) values 
+	<foreach collection="list" item="item" open="(" close=")" separator="),(">
+	  #{item.batchnum,jdbcType=VARCHAR}, #{item.cid,jdbcType=BIGINT}, #{item.syr,jdbcType=INTEGER},  
+	  #{item.hxsj,jdbcType=INTEGER}, #{item.tn,jdbcType=VARCHAR},
+      #{item.status,jdbcType=TINYINT}, #{item.sendtime,jdbcType=TIMESTAMP}, #{item.usetime,jdbcType=TIMESTAMP}, 
+      #{item.starttime,jdbcType=TIMESTAMP},#{item.expiretime,jdbcType=TIMESTAMP}, #{item.created,jdbcType=TIMESTAMP}, #{item.updated,jdbcType=TIMESTAMP}
+	</foreach>
+  </insert>
   <update id="updateByPrimaryKey" parameterType="com.jesper.model.Quan">
     <!--
       WARNING - @mbggenerated

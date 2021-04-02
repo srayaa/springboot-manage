@@ -47,4 +47,8 @@ public interface MemberMapper {
     int updateByPrimaryKey(Member record);
 
 	Member selectByNameAndPwd(Member member);
+
+	int count(Member member);
+
+	List<Member> list(Member member);
 }

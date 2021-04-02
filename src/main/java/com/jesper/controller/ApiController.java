@@ -162,7 +162,7 @@ public class ApiController {
 			j.put("criteria", "无限制条件");
 			j.put("state",quan.getStatus());
 			j.put("validshop", quan.getValidshops());
-			j.put("sysj", sdf.format(quan.getUsetime()));
+			j.put("sysj", quan.getUsetime()==null?"":sdf.format(quan.getUsetime()));
 			j.put("tn", quan.getTn());
 			j.put("sp", quan.getSname());
 			ja.add(j);

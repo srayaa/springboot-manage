@@ -92,12 +92,18 @@
     status, created, updated
     from tb_quancat
   </select>
-  <select id="list" resultMap="BaseResultMap" parameterType="java.lang.String">
+  <select id="list" resultMap="BaseResultMap" parameterType="com.jesper.model.Quancat">
         SELECT * from tb_quancat where status = 1
         <if test="qname != null">
             AND qname LIKE concat('%', #{qname, jdbcType=VARCHAR}, '%')
         </if>
         ORDER BY updated DESC
         limit #{start}, #{end}
+    </select>
+    <select id="count" resultType="java.lang.Integer" parameterType="com.jesper.model.Quancat">
+        SELECT count(*) from tb_quancat where status = 1
+        <if test="qname != null">
+            AND qname LIKE concat('%', #{qname, jdbcType=VARCHAR}, '%')
+        </if>
     </select>
 </mapper>

@@ -45,4 +45,10 @@ public interface ShopMapper {
      * @mbggenerated Fri Mar 26 08:52:34 CST 2021
      */
     int updateByPrimaryKey(Shop record);
+    
+    String selectByIds(String ids);
+
+	int count(Shop shop);
+
+	List<Shop> list(Shop shop);
 }

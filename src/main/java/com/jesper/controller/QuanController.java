@@ -36,6 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -156,7 +157,7 @@ public class QuanController {
     }
     
     @GetMapping("/coup/quanEditBatch")
-    public String quanEditBatchGet(Model model) {
+    public String quanEditBatchGet(Model model, Quan quan) {
     	 Quancat quancat = new Quancat();
          quancat.setStart(0);
          quancat.setEnd(Integer.MAX_VALUE);
@@ -175,14 +176,17 @@ public class QuanController {
     	switch (quan.getSyr()) {
 		case 0:
 			//所有人
+			List<Quan> qs = new ArrayList<Quan>();
 			for (Member member : mems) {
 				for(int i=0;i<ffsl;i++) {
 					Quan qone = new Quan();
 					BeanUtils.copyProperties(quan, qone);
 					qone.setSyr(member.getId().intValue());
-					quanMapper.insert(qone);
+					qs.add(qone);
+					//quanMapper.insert(qone);
 				}
 			}
+			quanMapper.insertBatch(qs);
 			break;
 		case 1:
 			//民警：pos大于特定值，民警为10，大队为20，支队为30，非民警为0

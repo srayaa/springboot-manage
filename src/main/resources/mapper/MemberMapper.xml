@@ -88,4 +88,18 @@
       SELECT * from tb_member  where pname = #{pname, jdbcType=VARCHAR} and pwd = #{pwd, jdbcType=VARCHAR} 
       <!-- and state = 1 -->
   </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="com.jesper.model.Member">
+        SELECT * from tb_member where state = 1
+        <if test="pname != null">
+            AND pname LIKE concat('%', #{pname, jdbcType=VARCHAR}, '%')
+        </if>
+        ORDER BY updated DESC
+        limit #{start}, #{end}
+    </select>
+    <select id="count" resultType="java.lang.Integer" parameterType="com.jesper.model.Member">
+        SELECT count(*) from tb_member where state = 1
+        <if test="pname != null">
+            AND pname LIKE concat('%', #{pname, jdbcType=VARCHAR}, '%')
+        </if>
+    </select>
 </mapper>

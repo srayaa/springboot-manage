@@ -152,6 +152,8 @@ public class UserController {
         model.addAttribute("user", user1);
         return "user/userManage";
     }
+    
+    
 
     @PostMapping("/user/userManage")
     public String userManagePost(Model model, User user, HttpSession httpSession) {

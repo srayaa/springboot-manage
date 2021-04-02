@@ -49,4 +49,6 @@ public interface QuancatMapper {
     int updateByPrimaryKey(Quancat record);
 
 	List<Quancat> list(Quancat quancat);
+
+	int count(Quancat quancat);
 }
