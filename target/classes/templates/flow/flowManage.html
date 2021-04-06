@@ -22,18 +22,8 @@
         <div class="border-bottom" th:include="header :: headerTop"></div>
         <div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
             <div class="col-lg-10">
-                <h2>券管理</h2>
-                <ol class="breadcrumb">
-                    <li>
-                        <a href="#">首页</a>
-                    </li>
-                    <li>
-                        <a>券管理</a>
-                    </li>
-                    <li class="active">
-                        <strong>券管理</strong>
-                    </li>
-                </ol>
+                <h2>消费记录</h2>
+                
             </div>
             <div class="col-lg-2">
             </div>
@@ -52,23 +42,22 @@
                             </div>
                         </div>
                         <div class="ibox-content" style="display: block;">
-                            <form action="quanManage_0_0_0">
+                            <form action="flowManage_0_0_0">
                                 <div class="row">
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="syr" name="syr" placeholder="所有人" class="form-control" type="text" th:value="${quan.syr}"/>
-                                    </div>
-                                    <div class="col-sm-2 m-b-xs">
-                                       <select name="cid" id="cid" class="form-control" >
-                                            <option value="0" th:selected="${quan.cid==0}">--请选择商品分类--</option>
-                                            <option th:each="ic : ${quancatList}" th:value="${ic.id}" th:text="${ic.qname}" th:selected="${ic.id==quan.cid}">分类</option>
+                                        <select name="shopid" id="shopid" class="form-control" >
+                                            <option value="0" th:selected="${flow.shopid==0}">--请选择商店--</option>
+                                            <option th:each="sp : ${shoplist}" th:value="${sp.id}" th:text="${sp.sname}" th:selected="${sp.id==flow.shopid}">商店</option>
                                         </select>
                                     </div>
-
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="minSendtime" name="minSendtime" data-date-format='yyyy-MM-dd HH:mm:ss' class="form-control" type="text" th:value="${quan.minSendtime==null}?'':${#dates.format(quan.minSendtime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="发放日期始" />
+                                        <input id="mname" name="mname" placeholder="用户名" class="form-control" type="text" th:value="${flow.mname}"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
-                                        <input id="maxSendtime" name="maxSendtime" data-date-format='yyyy-mm-dd hh:ii:ss' class="form-control" type="text" th:value="${quan.maxSendtime==null}?'':${#dates.format(quan.maxSendtime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="发放日期止"/>
+                                        <input id="minSendtime" name="minSendtime" data-date-format='yyyy-MM-dd HH:mm:ss' class="form-control" type="text" th:value="${flow.minSendtime==null}?'':${#dates.format(flow.minSendtime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="消费日期始" />
+                                    </div>
+                                    <div class="col-sm-2 m-b-xs">
+                                        <input id="maxSendtime" name="maxSendtime" data-date-format='yyyy-mm-dd hh:ii:ss' class="form-control" type="text" th:value="${flow.maxSendtime==null}?'':${#dates.format(flow.maxSendtime, 'yyyy-MM-dd HH:mm:ss')}" placeholder="消费日期止"/>
                                     </div>
                                     <div class="col-sm-2 m-b-xs">
                                         <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;<strong>搜索</strong></button>
@@ -80,8 +69,7 @@
                             </form>
                             <div class="row">
                                 <div class="col-sm-6 m-b-xs">
-                                    <a th:href="@{quanEdit}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;单张发券&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                    <a th:href="@{quanEditBatch}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;批量发券&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    <!-- <a th:href="@{shopEdit}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;增加商店&nbsp;&nbsp;&nbsp;&nbsp;</a> -->
                                 </div>
                                 <div class="col-sm-6 m-b-xs">
                                 </div>
@@ -93,7 +81,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>券列表</h5>
+                            <h5>消费列表</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -106,29 +94,26 @@
                                     <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="10%">发放批次</th>
-                                        <th width="25%">券种类</th>
-                                        <th width="20%">所有人</th>
-                                        <th width="15%">券状态</th>
-                                        <th width="15%">发放时间</th>
-                                        <!--<th width="10%">推荐状态</th>-->
-                                        <th>操作</th>
+                                        <th width="20%">消费类型</th>
+                                        <th width="10%">消费券ID</th>
+                                        <th width="10%">消费者</th>
+                                        <th width="15%">商店</th>
+                                        <th width="15%">消费流水号</th>
+                                        <th width="15%">消费时间</th>
+                                        <!--<th width="10%">推荐状态</th>
+                                        <th>操作</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="quan : ${quanList}">
-                                        <td th:text="${quan.id}">Onions</td>
-                                        <td th:text="${quan.batchnum}">Onions</td>
-                                        <td th:text="${quan.categoryName}">Onions</td>
-                                        <td th:text="${quan.syrstr}">Onions</td>
-                                        <td th:text="${quan.status==1?'正常':'无效'}">Onions</td>
-                                        <td th:text="${quan.updatedStr}">Onions</td>
+                                    <tr th:each="flow : ${flowList}">
+                                        <td th:text="${flow.id}">Onions</td>
+                                        <td th:text="${flow.ftype==1?'消费':flow.ftype}">Onions</td>
+                                        <td th:text="${flow.quanid}">Onions</td>
+                                        <td th:text="${flow.mname}">Onions</td>
+                                        <td th:text="${flow.shopName}">Onions</td>
+                                        <td th:text="${flow.tradecode}">Onions</td>
+                                        <td th:text="${#dates.format(flow.created, 'yyyy-MM-dd HH:mm:ss')}">Onions</td>
                                      
-                                        <td>
-                                            <a th:href="@{'quanEdit?id='+${quan.id}}" title="修改"><i class="fa fa-edit text-navy"></i></a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="#" th:onclick="'javascript:deleteOne('+${quan.id}+');'" title="删除"><i class="fa fa-trash-o text-navy"></i></a>
-                                        </td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
@@ -148,46 +133,16 @@
         <div class="footer" th:include="footer :: copyright"></div>
     </div>
 </div>
+<div id="qqqq" style="display:none;background-color:red;position:absolute;left:45%;top:45%;width:256px;height:256px;"></div>
+
 
 <!-- Mainly scripts -->
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
 <script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
-<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
-<script th:src="@{/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
 
 
-
-<script th:inline="javascript">
-    $("#minSendtime")
-    .attr('data-date-defaultdate', $('#minSendtime').val())
-    .datetimepicker({
-        format: "yyyy-mm-dd hh:ii:ss",
-        defaultDate: $('#minSendtime').val(),
-        autoclose: true,
-        todayBtn: true,
-        todayHighlight: true,
-        showMeridian: false,
-        pickerPosition: "bottom-left",
-        language: 'zh-CN',//中文，需要引用zh-CN.js包
-        startView: 2,//月视图
-        minView: 0//日期时间选择器所能够提供的最精确的时间选择视图
-    });
-
-    $("#maxSendtime").datetimepicker({
-        format: "yyyy-mm-dd hh:ii:ss",
-        defaultDate: $('#maxSendtime').val(),
-        autoclose: true,
-        todayBtn: true,
-        todayHighlight: true,
-        showMeridian: false,
-        pickerPosition: "bottom-left",
-        language: 'zh-CN',//中文，需要引用zh-CN.js包
-        startView: 2,//月视图
-        minView: 0//日期时间选择器所能够提供的最精确的时间选择视图
-    });
-</script>
 <!-- Peity -->
 <script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
 
@@ -207,48 +162,46 @@
 <!-- common -->
 <script th:src="@{/js/common.js}"></script>
 
+<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+
+
+<script th:inline="javascript">
+    $("#minSendtime")
+    .attr('data-date-defaultdate', $('#minSendtime').val())
+    .datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        defaultDate: $('#minSendtime').val(),
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: false,
+        pickerPosition: "bottom-left",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 1//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+
+    $("#maxSendtime").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        defaultDate: $('#maxSendtime').val(),
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: false,
+        pickerPosition: "bottom-left",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 1//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+</script>
 <script th:inline="javascript">
     var pageHTML = [[${pageHTML}]];
     $(document).ready(function () {
         $("#pageHTML").html(pageHTML);
     });
 
-    function deleteOne(id){
-    	$.ajax({
-            type: "POST",
-            url: "quanEditDel?id="+id,
-            contentType: "application/json; charset=utf-8",
-            success: function(msg){
-                window.location.reload();
-            },
-            error: function(){
-                alert("系统异常！");
-            }
-        });
-    }
-    /*<![CDATA[*/
-    function updateState(id,state,commendState){
-        var deleteTag;
-        if(state==2){
-            deleteTag = confirm("确定删除此条信息?");
-        } else {
-            deleteTag = true;
-        }
-        if(deleteTag){
-            $.ajax({
-                type: "POST",
-                url: "quanEditState?id="+id,
-                contentType: "application/json; charset=utf-8",
-                success: function(msg){
-                    window.location.reload();
-                },
-                error: function(){
-                    alert("系统异常！");
-                }
-            });
-        }
-    }
-    /*]]>*/
 </script>
 
 </body>

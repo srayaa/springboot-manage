@@ -45,4 +45,8 @@ public interface FlowMapper {
      * @mbggenerated Fri Mar 26 08:52:34 CST 2021
      */
     int updateByPrimaryKey(Flow record);
+
+	int count(Flow flow);
+
+	List<Flow> list(Flow flow);
 }

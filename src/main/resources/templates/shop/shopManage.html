@@ -105,6 +105,8 @@
                                             <a th:href="@{'shopEdit?id='+${shop.id}}" title="修改"><i class="fa fa-edit text-navy"></i></a>
                                             &nbsp;&nbsp;&nbsp;&nbsp;
                                             <a href="#" th:onclick="'javascript:deleteOne('+${shop.id}+');'" title="删除"><i class="fa fa-trash-o text-navy"></i></a>
+                                            <button th:onclick="'showqr('+${shop.id}+');'">商家码</button>
+                                            
                                         </td>
                                     </tr>
                                     </tbody>
@@ -125,6 +127,8 @@
         <div class="footer" th:include="footer :: copyright"></div>
     </div>
 </div>
+<div id="qqqq" style="display:none;background-color:red;position:absolute;left:45%;top:45%;width:256px;height:256px;"></div>
+
 
 <!-- Mainly scripts -->
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
@@ -152,10 +156,23 @@
 <!-- common -->
 <script th:src="@{/js/common.js}"></script>
 
+ <script th:src="@{/js/qrcode.min.js}"></script>
+
 <script th:inline="javascript">
+
+function showqr(sid){
+	$("#qqqq").empty();
+	$("#qqqq").css("display","block");
+	           //document.getElementById(id)
+	new QRCode(document.getElementById("qqqq"), '12');  // 设置要生成二维码的链接
+}
     var pageHTML = [[${pageHTML}]];
     $(document).ready(function () {
         $("#pageHTML").html(pageHTML);
+        
+    	$("#qqqq").click(function(){
+    		$("#qqqq").css("display","none");
+    	});
     });
 
     function deleteOne(id){

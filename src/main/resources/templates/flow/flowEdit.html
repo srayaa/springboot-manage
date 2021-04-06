@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>后台信息管理系统</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+	<link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" media="screen"/>
+    <!-- Toastr style -->
+    <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
+    <!-- summernote style -->
+    <link th:href="@{/css/plugins/summernote/summernote.css}" rel="stylesheet" />
+    <link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet" />
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation" th:include="nav :: navigation"></nav>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="border-bottom" th:include="header :: headerTop"></div>
+        <div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
+            <div class="col-lg-10">
+                <h2>商店管理</h2>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>新增或修改商店</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form id="formTag" action="shopEdit" method="POST" class="form-horizontal" enctype="multipart/form-data">
+
+                                <div class="form-group"><label class="col-sm-2 control-label">商店id：</label>
+                                    <div class="col-sm-10">
+                                    <input id="id" name="id" type="text" readonly="readonly" class="form-control" th:value="${shop.id}"/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group"><label class="col-sm-2 control-label">商店名称：</label>
+                                    <div class="col-sm-10">
+                                        <input id="sname" name="sname" type="text" class="form-control" th:value="${shop.sname}"/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">联系人：</label>
+                                    <div class="col-sm-10">
+                                        <input id="slxr" name="slxr" type="text" class="form-control" th:value="${shop.slxr}"/>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">联系电话：</label>
+                                    <div class="col-sm-10">
+                                        <input id="sphone" name="sphone" type="text" class="form-control" th:value="${shop.sphone}"/>
+                                    </div>
+                                </div>
+								<div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">商店简介：</label>
+                                    <div class="col-sm-10">
+                                        <input id="shopcomment" name="shopcomment" class="form-control" rows="2" th:value="${shop.shopcomment}" />
+                                    </div>
+                                </div>
+								<div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">商店地址：</label>
+                                    <div class="col-sm-10">
+                                        <input id="shopaddr" name="shopaddr" class="form-control" rows="2" th:value="${shop.shopaddr}" />
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+								<div class="form-group"><label class="col-sm-2 control-label">商店状态：</label>
+                                    <div class="col-sm-10">
+                                    	<select name="state" id="state" class="form-control">
+                                    		<option value="1" selected="selected">正常</option>
+											<option value="4">作废</option>
+                                    	</select>
+                                        
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button id="submitButton" class="btn btn-primary" type="button">&nbsp;&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;&nbsp;交&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer" th:include="footer :: copyright"></div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+
+<!-- Toastr script -->
+<script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
+
+<!-- common -->
+<script th:src="@{/js/common.js}"></script>
+
+<!-- SUMMERNOTE -->
+<script th:src="@{/js/plugins/summernote/summernote.min.js}"></script>
+
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        //初始化编辑器
+        $('#summernote').summernote({
+            height: 300,
+            codemirror: {
+                mode: 'text/html',
+                htmlMode: true,
+                lineNumbers: true,
+                theme: 'monokai'
+            }
+        });
+        //编辑器赋值
+
+        //提交
+        $("#submitButton").click(function(){
+            /* if($("#batchnum").val() == ""){
+                toastr.error('请输入批次号','提示');
+                return;
+            }
+            if($("#cid").val() == 0){
+                toastr.error('请选择券分类','提示');
+                return;
+            }
+            if($("#syr").val() == ""){
+                toastr.error('请输入所有人','提示');
+                return;
+            }
+            if($("#starttime").val() == ""){
+                toastr.error('请输入生效时间始','提示');
+                return;
+            }
+            if($("#expiretime").val() == ""){
+                toastr.error('请输入生效时间止','提示');
+                return;
+            } */
+            $("#formTag").submit();
+        });
+    });
+</script>
+<script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+
+
+<script th:inline="javascript">
+    $("#starttime")
+    .datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        defaultDate: $('#starttime').val(),
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: false,
+        pickerPosition: "bottom-right",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 1//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+
+    $("#expiretime").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        defaultDate: $('#expiretime').val(),
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true,
+        showMeridian: false,
+        pickerPosition: "bottom-right",
+        language: 'zh-CN',//中文，需要引用zh-CN.js包
+        startView: 2,//月视图
+        minView: 1//日期时间选择器所能够提供的最精确的时间选择视图
+    });
+</script>
+</body>
+
+</html>

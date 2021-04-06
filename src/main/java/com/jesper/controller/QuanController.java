@@ -83,11 +83,14 @@ public class QuanController {
                              Model model) {
         if (pageSize == 0) pageSize = 50;
         if (pageCurrent == 0) pageCurrent = 1;
-
+        
         int rows = quanMapper.count(quan);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         quan.setStart((pageCurrent - 1) * pageSize);
         quan.setEnd(pageSize);
+        if(quan.getCid()!=null&&quan.getCid()==0) {
+        	quan.setCid(null);
+        }
         quanList = quanMapper.list(quan);
         for (Quan i : quanList) {
             i.setUpdatedStr(DateUtil.getDateStr(i.getUpdated()));

@@ -16,6 +16,8 @@
     <result column="memberid" property="memberid" jdbcType="BIGINT" />
     <result column="shopid" property="shopid" jdbcType="BIGINT" />
     <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="mname" property="mname" jdbcType="VARCHAR"/>
+    <result column="shopName" property="shopName" jdbcType="VARCHAR"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     <!--
@@ -78,4 +80,37 @@
     select id,tradecode, ftype, qtimes, qprice, quanid, memberid, shopid, created
     from tb_flow
   </select>
+  <select id="count" resultType="java.lang.Integer" parameterType="com.jesper.model.Flow">
+        SELECT count(*) from tb_flow i  
+        left join tb_member u on i.memberid = u.id
+        WHERE ftype = 1
+        <if test="shopid != null and shopid != 0">
+            AND shopid = #{shopid, jdbcType=INTEGER}
+        </if>
+        <if test="mname != null">
+            AND u.realname LIKE concat('%', #{mname, jdbcType=VARCHAR}, '%')
+        </if>
+
+        <if test="minSendtime != null and maxSendtime != null">
+            AND i.created BETWEEN #{minSendtime, jdbcType=TIMESTAMP} AND #{maxSendtime, jdbcType=TIMESTAMP}
+            ORDER BY i.created desc
+        </if>
+    </select>
+  	<select id="list" resultMap="BaseResultMap" parameterType="com.jesper.model.Quan">
+        SELECT i.* , t.sname as shopName,u.realname as mname FROM tb_flow i 
+        LEFT JOIN tb_shop t ON i.shopid = t.id 
+        LEFT JOIN tb_member u on i.memberid = u.id
+        WHERE ftype = 1 
+        <if test="shopid != null and shopid != 0">
+            AND shopid = #{shopid, jdbcType=INTEGER}
+        </if>
+        <if test="mname != null">
+            AND u.realname LIKE concat('%', #{mname, jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="minSendtime != null and maxSendtime != null">
+            AND i.created BETWEEN #{minSendtime, jdbcType=TIMESTAMP} AND #{maxSendtime, jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY i.created desc
+        limit #{start, jdbcType=INTEGER},#{end, jdbcType=INTEGER}
+    </select>
 </mapper>
