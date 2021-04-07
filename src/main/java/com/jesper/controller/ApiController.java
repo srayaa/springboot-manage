@@ -5,9 +5,11 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,6 +87,10 @@ public class ApiController {
 					tn = tn+1;
 				}
 				redisService.set(TradeKey.trade, "TN", tn);*/
+				if(!quan.getValidshops().contains(","+shopid+",")) {
+					jo.put("code", -6);
+					return jo.toJSONString();
+				}
 				Shop shop = shopMapper.selectByPrimaryKey(Long.parseLong(shopid));
 				if(shop==null) {
 					jo.put("code", -5);
@@ -170,6 +176,41 @@ public class ApiController {
 		jo.put("qs",ja);
 		jo.put("code", "0");
 		
+		return jo.toJSONString();
+	}
+	
+	@RequestMapping("/api/update")
+	public String update(@RequestParam String version,@RequestParam String name,@RequestParam String code,@RequestParam String ts,@RequestParam String platform,HttpServletRequest request){
+		JSONObject jo = new JSONObject();
+		JSONObject data = new JSONObject();
+		boolean needupdate=false,forceupdate = false;
+		jo.put("code", 100);
+		//1.0.2
+		String[] vers = version.split("\\.");
+		//总版本
+		
+		if(Integer.parseInt(vers[0])<1) {
+			needupdate = true;
+			forceupdate=true;//大版本强制升级
+		}
+		//分版本
+		if(Integer.parseInt(vers[1])<0) {
+			needupdate = true;
+		}
+		//子版本
+		if(Integer.parseInt(vers[2])<3) {
+			needupdate = true;
+		}
+		data.put("update_flag", needupdate?1:0);
+		data.put("forceupdate", forceupdate?1:0);
+		data.put("update_url", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/apk/minjing1.2.apk");
+		data.put("update_tips", "优化券列表展示\n优化其它小问题");
+		data.put("version", "1.0.3");
+		data.put("size", 24311483);
+		data.put("wgt_flag", 0);
+		data.put("wgt_url", "backorder_1.0.2.wgt");
+		jo.put("msg", "");
+		jo.put("data", data);
 		return jo.toJSONString();
 	}
 	

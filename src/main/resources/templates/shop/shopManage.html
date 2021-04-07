@@ -164,7 +164,7 @@ function showqr(sid){
 	$("#qqqq").empty();
 	$("#qqqq").css("display","block");
 	           //document.getElementById(id)
-	new QRCode(document.getElementById("qqqq"), '12');  // 设置要生成二维码的链接
+	new QRCode(document.getElementById("qqqq"), sid+'');  // 设置要生成二维码的链接
 }
     var pageHTML = [[${pageHTML}]];
     $(document).ready(function () {

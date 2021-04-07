@@ -34,7 +34,7 @@ public class ConfigInterceptor implements Filter{
 
 	JwtUtils jwtUtils = new JwtUtils();
 	private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/user/skin-config.html",".*jpg","/favicon.ico","/img/.*","/font-awesome/.*","/js/.*","/css/.*","/main/excludefilter", "/user/login", "/user/logout", "/user/register","/api/login","/api/regist")));
+            Arrays.asList(".*apk","/user/skin-config.html",".*jpg","/favicon.ico","/img/.*","/font-awesome/.*","/js/.*","/css/.*","/main/excludefilter", "/user/login", "/user/logout", "/user/register","/api/login","/api/regist","/api/update")));
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
