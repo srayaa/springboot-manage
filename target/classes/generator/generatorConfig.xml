@@ -57,6 +57,9 @@
         </table>
         <table tableName="tb_member" domainObjectName="Member">
         	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+        <table tableName="tb_ver" domainObjectName="Ver">
+        	<generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>-->
     </context>
 </generatorConfiguration>

@@ -1,11 +1,16 @@
 package com.jesper.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +28,13 @@ import com.jesper.mapper.MemberMapper;
 import com.jesper.mapper.QuanMapper;
 import com.jesper.mapper.ShopMapper;
 import com.jesper.mapper.UserMapper;
+import com.jesper.mapper.VerMapper;
 import com.jesper.model.Flow;
 import com.jesper.model.Member;
 import com.jesper.model.Quan;
 import com.jesper.model.Shop;
 import com.jesper.model.User;
+import com.jesper.model.Ver;
 import com.jesper.redis.RedisService;
 import com.jesper.redis.TradeKey;
 import com.jesper.util.JwtUtils;
@@ -48,6 +55,8 @@ public class ApiController {
 	
 	@Autowired
 	private QuanMapper quanMapper;
+	@Autowired
+	private VerMapper verMapper;
 	
 	
 	
@@ -181,12 +190,21 @@ public class ApiController {
 	
 	@RequestMapping("/api/update")
 	public String update(@RequestParam String version,@RequestParam String name,@RequestParam String code,@RequestParam String ts,@RequestParam String platform,HttpServletRequest request){
+		List<Ver> latest = verMapper.selectLast(Integer.parseInt(code));
+		Ver lastone = latest.get(0);
+		boolean needupdate=false,forceupdate = false;
+		for (Ver ver : latest) {
+			if(ver.getIsforce()==0?false:true) {
+				forceupdate = true;
+			}
+		}
 		JSONObject jo = new JSONObject();
 		JSONObject data = new JSONObject();
-		boolean needupdate=false,forceupdate = false;
+		
 		jo.put("code", 100);
 		//1.0.2
-		String[] vers = version.split("\\.");
+		/*String[] vers = version.split("\\.");
+		String[] versn = lastone.getVersioncode().split("\\.");
 		//总版本
 		
 		if(Integer.parseInt(vers[0])<1) {
@@ -200,18 +218,45 @@ public class ApiController {
 		//子版本
 		if(Integer.parseInt(vers[2])<3) {
 			needupdate = true;
+		}*/
+		if(lastone.getVersionnum()>Integer.parseInt(code)) {
+			needupdate=true;
 		}
 		data.put("update_flag", needupdate?1:0);
 		data.put("forceupdate", forceupdate?1:0);
-		data.put("update_url", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/apk/minjing1.2.apk");
-		data.put("update_tips", "优化券列表展示\n优化其它小问题");
-		data.put("version", "1.0.3");
-		data.put("size", 24311483);
-		data.put("wgt_flag", 0);
-		data.put("wgt_url", "backorder_1.0.2.wgt");
+//		data.put("update_url", request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/apk/minjing1.2.apk");
+		data.put("update_url", lastone.getUpdateurl());
+		data.put("update_tips", lastone.getUpdatetips());
+		data.put("version", lastone.getVersioncode());
+		data.put("size", lastone.getSize());
+		data.put("wgt_flag", lastone.getWgtFlag());
+		data.put("wgt_url", lastone.getWgtUrl());
 		jo.put("msg", "");
 		jo.put("data", data);
 		return jo.toJSONString();
+	}
+	
+	@RequestMapping("/api/apk")
+	public void apk(@RequestParam String ver,HttpServletRequest request, HttpServletResponse response) {
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(new File(System.getProperty("user.dir")+"/"+ver+".apk"));
+		
+			response.setHeader("content-disposition",
+					 
+					"attachment;fileName="+"minjing.apk");
+			int count =0;
+			byte[] by = new byte[1024];
+			OutputStream out=  response.getOutputStream();
+			while((count=fis.read(by))!=-1){
+			      out.write(by, 0, count);//将缓冲区的数据输出到浏览器
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//response.getOutputStream()
+		//return "";
 	}
 	
 	@RequestMapping("/api/login")
