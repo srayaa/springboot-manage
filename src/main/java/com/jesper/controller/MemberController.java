@@ -89,6 +89,11 @@ public class MemberController {
         return "member/memberManage";
     }
 
+    @GetMapping("/coup/info")
+    public String memberDown() {
+    	return "member/info";
+    }
+    
     @GetMapping("/coup/memberEdit")
     public String memberEditGet(Model model, Member member) {
     	List<Member> memberList = memberMapper.selectAll();

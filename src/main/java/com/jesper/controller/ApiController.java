@@ -230,13 +230,13 @@ public class ApiController {
 		data.put("version", lastone.getVersioncode());
 		data.put("size", lastone.getSize());
 		data.put("wgt_flag", lastone.getWgtFlag());
-		data.put("wgt_url", lastone.getWgtUrl());
+		data.put("wgt_url", lastone.getWgtUrl()==null?"":lastone.getWgtUrl());
 		jo.put("msg", "");
 		jo.put("data", data);
 		return jo.toJSONString();
 	}
 	
-	@RequestMapping("/api/apk")
+	@RequestMapping("/api/minjing.apk")
 	public void apk(@RequestParam String ver,HttpServletRequest request, HttpServletResponse response) {
 		FileInputStream fis;
 		try {
