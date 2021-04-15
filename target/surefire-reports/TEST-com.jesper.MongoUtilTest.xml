@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.jesper.MongoUtilTest" time="0.114" tests="5" errors="0" skipped="0" failures="0">
+<testsuite name="com.jesper.MongoUtilTest" time="69.989" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_221\jre\bin"/>
@@ -26,9 +26,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 10"/>
-    <property name="classworlds.conf" value="D:\wjh\source\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf7571613880493976006.tmp"/>
+    <property name="classworlds.conf" value="D:\wjh\source\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8698021079386703989.tmp"/>
     <property name="sun.jnu.encoding" value="GBK"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_221\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jdk1.8.0_221/bin/../jre/bin/server;C:/Program Files/Java/jdk1.8.0_221/bin/../jre/bin;C:/Program Files/Java/jdk1.8.0_221/bin/../jre/lib/amd64;D:\app\lenovo;D:\app\lenovo\bin;C:\Python38\Scripts\;C:\Python38\;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Program Files\Common Files\Oracle\Java\javapath;D:\gsc\tools\instantclient-basic-win32-11.2.0.1.0\instantclient_11_2;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;D:\oracle\product\10.2.0\client_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;D:\Program Files\Tesseract-OCR;C:\Program Files (x86)\Common Files\Business Objects\3.0\bin;C:\Program Files (x86)\Common Files\Business Objects\3.0\crystalreportviewers11\ActiveXControls;C:\Program Files (x86)\ZeroTier\One\;D:\wjh\php-7.3.3-Win32-VC15-x64;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\dotnet\;D:\wjh\apache-maven-3.3.9\apache-maven-3.3.9\bin\;C:\Users\lenovo\AppData\Local\Microsoft\WindowsApps;;C:\Users\lenovo\AppData\Roaming\Composer\vendor\bin;C:\Users\lenovo\AppData\Roaming\npm;C:\Users\lenovo\AppData\Local\Yarn\bin;C:\Users\lenovo\.dotnet\tools;D:\wjh\eclipse\eclipse;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_221\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jdk1.8.0_221/bin/../jre/bin/server;C:/Program Files/Java/jdk1.8.0_221/bin/../jre/bin;C:/Program Files/Java/jdk1.8.0_221/bin/../jre/lib/amd64;D:\app\lenovo;D:\app\lenovo\bin;C:\Python38\Scripts\;C:\Python38\;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Program Files\Common Files\Oracle\Java\javapath;D:\gsc\tools\instantclient-basic-win32-11.2.0.1.0\instantclient_11_2;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;D:\oracle\product\10.2.0\client_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;D:\Program Files\Tesseract-OCR;C:\Program Files (x86)\Common Files\Business Objects\3.0\bin;C:\Program Files (x86)\Common Files\Business Objects\3.0\crystalreportviewers11\ActiveXControls;C:\Program Files (x86)\ZeroTier\One\;D:\wjh\php-7.3.3-Win32-VC15-x64;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\dotnet\;D:\wjh\apache-maven-3.3.9\apache-maven-3.3.9\bin\;C:\Program Files\VisualSVN Server\bin;C:\Program Files\TortoiseSVN\bin;C:\Users\lenovo\AppData\Local\Microsoft\WindowsApps;;C:\Users\lenovo\AppData\Roaming\Composer\vendor\bin;C:\Users\lenovo\AppData\Roaming\npm;C:\Users\lenovo\AppData\Local\Yarn\bin;C:\Users\lenovo\.dotnet\tools;D:\wjh\eclipse\eclipse;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -60,9 +60,9 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="uploadFileTest" classname="com.jesper.MongoUtilTest" time="0.065"/>
-  <testcase name="getAllFileTest" classname="com.jesper.MongoUtilTest" time="0.032"/>
-  <testcase name="batchDeleteFileByIds" classname="com.jesper.MongoUtilTest" time="0.004"/>
-  <testcase name="deleteFileTest" classname="com.jesper.MongoUtilTest" time="0.01"/>
+  <testcase name="uploadFileTest" classname="com.jesper.MongoUtilTest" time="30.03"/>
+  <testcase name="getAllFileTest" classname="com.jesper.MongoUtilTest" time="39.947"/>
+  <testcase name="batchDeleteFileByIds" classname="com.jesper.MongoUtilTest" time="0.006"/>
+  <testcase name="deleteFileTest" classname="com.jesper.MongoUtilTest" time="0.003"/>
   <testcase name="getFileByIdTest" classname="com.jesper.MongoUtilTest" time="0.003"/>
 </testsuite>
